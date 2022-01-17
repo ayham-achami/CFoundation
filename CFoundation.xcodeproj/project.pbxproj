@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8FA1B93FA6EE37ECEEC8DEF9 /* Pods_CFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A74926A4DB89AFB6C4E11B23 /* Pods_CFoundation.framework */; };
+		830D17BFABE003D6E2DB7F72 /* Pods_CFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A92853AC680F6A2402329F /* Pods_CFoundation.framework */; };
 		98897E6196519CF9673B579D /* Pods_CFoundationTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2043E35C27007CD1B86356FC /* Pods_CFoundationTests.framework */; };
 		F0C2712126CD3D0000211F15 /* CFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C2711726CD3D0000211F15 /* CFoundation.framework */; };
 		F0C2712626CD3D0000211F15 /* CFoundationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C2712526CD3D0000211F15 /* CFoundationTests.swift */; };
@@ -22,7 +22,6 @@
 		F0C2716726CD3E1400211F15 /* Protected.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C2714526CD3E1400211F15 /* Protected.swift */; };
 		F0C2716826CD3E1400211F15 /* PhonePatternBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C2714726CD3E1400211F15 /* PhonePatternBuilder.swift */; };
 		F0C2716926CD3E1400211F15 /* DeviceSpecifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C2714826CD3E1400211F15 /* DeviceSpecifications.swift */; };
-		F0C2716A26CD3E1400211F15 /* CameraPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C2714A26CD3E1400211F15 /* CameraPermissions.swift */; };
 		F0C2716B26CD3E1400211F15 /* SettingsRedirectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C2714B26CD3E1400211F15 /* SettingsRedirectable.swift */; };
 		F0C2716C26CD3E1400211F15 /* DispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C2714D26CD3E1400211F15 /* DispatchQueue.swift */; };
 		F0C2716D26CD3E1400211F15 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C2714E26CD3E1400211F15 /* String.swift */; };
@@ -55,10 +54,10 @@
 
 /* Begin PBXFileReference section */
 		2043E35C27007CD1B86356FC /* Pods_CFoundationTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CFoundationTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		36A92853AC680F6A2402329F /* Pods_CFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FD121040C5F1BFA87B00FC9 /* Pods-CFoundation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CFoundation.release.xcconfig"; path = "Target Support Files/Pods-CFoundation/Pods-CFoundation.release.xcconfig"; sourceTree = "<group>"; };
 		625FDDBEABD575201198F271 /* Pods-CFoundation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CFoundation.debug.xcconfig"; path = "Target Support Files/Pods-CFoundation/Pods-CFoundation.debug.xcconfig"; sourceTree = "<group>"; };
 		98A4DE64D908ADECEF9644CF /* Pods-CFoundationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CFoundationTests.debug.xcconfig"; path = "Target Support Files/Pods-CFoundationTests/Pods-CFoundationTests.debug.xcconfig"; sourceTree = "<group>"; };
-		A74926A4DB89AFB6C4E11B23 /* Pods_CFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D43DB9D20AB98628778C3D2C /* Pods-CFoundationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CFoundationTests.release.xcconfig"; path = "Target Support Files/Pods-CFoundationTests/Pods-CFoundationTests.release.xcconfig"; sourceTree = "<group>"; };
 		F0C2711726CD3D0000211F15 /* CFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0C2711A26CD3D0000211F15 /* CFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CFoundation.h; sourceTree = "<group>"; };
@@ -77,7 +76,6 @@
 		F0C2714526CD3E1400211F15 /* Protected.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protected.swift; sourceTree = "<group>"; };
 		F0C2714726CD3E1400211F15 /* PhonePatternBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhonePatternBuilder.swift; sourceTree = "<group>"; };
 		F0C2714826CD3E1400211F15 /* DeviceSpecifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceSpecifications.swift; sourceTree = "<group>"; };
-		F0C2714A26CD3E1400211F15 /* CameraPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraPermissions.swift; sourceTree = "<group>"; };
 		F0C2714B26CD3E1400211F15 /* SettingsRedirectable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsRedirectable.swift; sourceTree = "<group>"; };
 		F0C2714D26CD3E1400211F15 /* DispatchQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchQueue.swift; sourceTree = "<group>"; };
 		F0C2714E26CD3E1400211F15 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
@@ -112,7 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FA1B93FA6EE37ECEEC8DEF9 /* Pods_CFoundation.framework in Frameworks */,
+				830D17BFABE003D6E2DB7F72 /* Pods_CFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +136,8 @@
 		1AD7AD6A88492B2DEC90CDC9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A74926A4DB89AFB6C4E11B23 /* Pods_CFoundation.framework */,
 				2043E35C27007CD1B86356FC /* Pods_CFoundationTests.framework */,
+				36A92853AC680F6A2402329F /* Pods_CFoundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -261,7 +259,6 @@
 		F0C2714926CD3E1400211F15 /* Permissions */ = {
 			isa = PBXGroup;
 			children = (
-				F0C2714A26CD3E1400211F15 /* CameraPermissions.swift */,
 				F0C2714B26CD3E1400211F15 /* SettingsRedirectable.swift */,
 			);
 			path = Permissions;
@@ -571,7 +568,6 @@
 				F0C2715F26CD3E1400211F15 /* XCTSourceLoader.swift in Sources */,
 				F0C2717426CD3E1400211F15 /* Logger.swift in Sources */,
 				F0C2716326CD3E1400211F15 /* TimersSource.swift in Sources */,
-				F0C2716A26CD3E1400211F15 /* CameraPermissions.swift in Sources */,
 				F0C2717026CD3E1400211F15 /* DelaySearchPerformer.swift in Sources */,
 				F0C2716426CD3E1400211F15 /* ReferenceArray.swift in Sources */,
 				F0C2716E26CD3E1400211F15 /* Keychain.swift in Sources */,
@@ -693,7 +689,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -751,7 +747,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -774,7 +770,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -784,6 +780,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = CFoundation;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -800,7 +797,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -810,6 +807,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = CFoundation;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
