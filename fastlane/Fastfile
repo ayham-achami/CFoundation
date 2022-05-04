@@ -38,6 +38,16 @@ platform :ios do
          clean: true)
   end
 
+  desc 'Build ios xcframework'
+  lane :build_xcframework do |_options|
+    create_xcframework(
+                       workspace: 'CFoundation.xcworkspace',
+                       scheme: 'CFoundation',
+                       destinations: ['iOS'],
+                       xcframework_output_directory: './distrib'
+      )
+  end
+
   desc 'Build playground'
   def build_playground
     clean_build_artifacts
