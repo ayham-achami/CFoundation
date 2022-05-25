@@ -85,21 +85,28 @@ public class Logger {
         }
     }
     
-    /// 50 Mb free space
-    private let maxFreeSpace: UInt64 = 50 * 1024 * 1024
-    /// максимальный размер файла лога
-    private let maxFileLogSize: UInt64 = 50 * 1024 * 1024
-    private let minFileLogSize: UInt64 = 1024
-    
     /// регулирует название уровня лога использовать прямое название или эмоции (*_*)
     private let useEmoji: Bool
+    
     /// уровень логирования
     private let level: Level
+    
     /// формирование файла логов
     private let logFile: LogFile?
     
+    /// Объектно-ориентированная оболочка для файлового дескриптора.
     private let fileHandler: FileHandle?
     
+    /// 50 Mb free space
+    private let maxFreeSpace: UInt64 = 50 * 1024 * 1024
+    
+    /// максимальный размер файла лога
+    private let maxFileLogSize: UInt64 = 50 * 1024 * 1024
+    
+    /// минмальный размер файла лога
+    private let minFileLogSize: UInt64 = 1024
+    
+    /// Очередь для записи в файл
     private let logFileQueue = DispatchQueue(label: "CFoundation.Async.FileLog.Queue")
     
     /// инициализирует объект логирования
@@ -243,7 +250,37 @@ public class Logger {
                      _ line: Int = #line) {
         log(.info, "Logger", message(), file, function, line)
     }
+    
+    /// Вывод JSON уровня информации дибаг
+    /// - Parameters:
+    ///   - data: `Data` JSON
+    ///   - file: название файла
+    ///   - function: название функции или метода
+    ///   - line: номер строки
+    public func json(_ data: Data,
+                     _ file: StaticString = #file,
+                     _ function: StaticString = #function,
+                     _ line: Int = #line) {
+        guard level == .debug else { return }
+        log(.debug, "Logger", data.prettyPrintedJSONString, file, function, line)
+    }
 
+    /// Вывод JSON уровня информации дибаг
+    /// - Parameters:
+    ///   - tag: таг сообщения для фильтрации
+    ///   - data: `Data` JSON
+    ///   - file: название файла
+    ///   - function: название функции или метода
+    ///   - line: номер строки
+    public func json(with tag: String = "JSONDebug",
+                     _ data: Data,
+                     _ file: StaticString = #file,
+                     _ function: StaticString = #function,
+                     _ line: Int = #line) {
+        guard level == .debug else { return }
+        log(.debug, tag, data.prettyPrintedJSONString, file, function, line)
+    }
+    
     /// returns the filename of a path
     private func fileNameFromPath(_ path: StaticString) -> String {
         guard let lastPart = path.description.components(separatedBy: "/").last else { return "" }
@@ -403,5 +440,17 @@ extension Logger {
                  _ function: StaticString = #function,
                  _ line: Int = #line) {
         warning(convertible.logDescription, file, function, line)
+    }
+}
+
+// MARK: - Data + PrettyPrinted
+private extension Data {
+    
+    /// Преобразует `Data` в JSON
+    var prettyPrintedJSONString: String {
+        guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
+              let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
+              let prettyPrintedString = String(data: data, encoding: .utf8) else { return "" }
+        return prettyPrintedString
     }
 }
