@@ -13,6 +13,7 @@
 		DFD08624285005C4006A0374 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD08623285005C4006A0374 /* LinkedList.swift */; };
 		DFD08629285006BA006A0374 /* DarwinNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD08628285006BA006A0374 /* DarwinNotificationCenter.swift */; };
 		DFD0862B285008D7006A0374 /* DarwinNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD0862A285008D7006A0374 /* DarwinNotification.swift */; };
+		DFD0862D2850864E006A0374 /* Sequence+Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD0862C2850864E006A0374 /* Sequence+Sort.swift */; };
 		F0C2712126CD3D0000211F15 /* CFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C2711726CD3D0000211F15 /* CFoundation.framework */; };
 		F0C2712626CD3D0000211F15 /* CFoundationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C2712526CD3D0000211F15 /* CFoundationTests.swift */; };
 		F0C2712826CD3D0000211F15 /* CFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = F0C2711A26CD3D0000211F15 /* CFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -67,6 +68,7 @@
 		DFD08623285005C4006A0374 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		DFD08628285006BA006A0374 /* DarwinNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarwinNotificationCenter.swift; sourceTree = "<group>"; };
 		DFD0862A285008D7006A0374 /* DarwinNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarwinNotification.swift; sourceTree = "<group>"; };
+		DFD0862C2850864E006A0374 /* Sequence+Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Sort.swift"; sourceTree = "<group>"; };
 		F0C2711726CD3D0000211F15 /* CFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0C2711A26CD3D0000211F15 /* CFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CFoundation.h; sourceTree = "<group>"; };
 		F0C2711B26CD3D0000211F15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				DFD0862128500592006A0374 /* Queue.swift */,
 				DFD08623285005C4006A0374 /* LinkedList.swift */,
 				F0C2714126CD3E1400211F15 /* ReferenceArray.swift */,
+				DFD0862C2850864E006A0374 /* Sequence+Sort.swift */,
 			);
 			path = DataStructure;
 			sourceTree = "<group>";
@@ -611,6 +614,7 @@
 			files = (
 				DFD08629285006BA006A0374 /* DarwinNotificationCenter.swift in Sources */,
 				F0C2715F26CD3E1400211F15 /* XCTSourceLoader.swift in Sources */,
+				DFD0862D2850864E006A0374 /* Sequence+Sort.swift in Sources */,
 				F0C2717426CD3E1400211F15 /* Logger.swift in Sources */,
 				F0C2716326CD3E1400211F15 /* TimersSource.swift in Sources */,
 				F0C2717026CD3E1400211F15 /* DelaySearchPerformer.swift in Sources */,
