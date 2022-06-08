@@ -34,6 +34,7 @@ public protocol AnyResourceType {
     var type: String { get }
 }
 
+// MARK: - AnyResourceType + RawRepresentable
 public extension AnyResourceType where Self: RawRepresentable, RawValue == String {
 
     var name: String { rawValue.prefix(1).capitalized + rawValue.dropFirst() }
@@ -42,6 +43,7 @@ public extension AnyResourceType where Self: RawRepresentable, RawValue == Strin
 /// Протокол для создания enum, содержащем в себе имя json модели
 public protocol JSONResource: AnyResourceType {}
 
+// MARK: - JSONResource + Default
 public extension JSONResource {
 
     /// Расширение файла, требующего декодирования

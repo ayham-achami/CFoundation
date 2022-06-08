@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		830D17BFABE003D6E2DB7F72 /* Pods_CFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A92853AC680F6A2402329F /* Pods_CFoundation.framework */; };
 		98897E6196519CF9673B579D /* Pods_CFoundationTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2043E35C27007CD1B86356FC /* Pods_CFoundationTests.framework */; };
+		DFD0862228500592006A0374 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD0862128500592006A0374 /* Queue.swift */; };
+		DFD08624285005C4006A0374 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD08623285005C4006A0374 /* LinkedList.swift */; };
+		DFD08629285006BA006A0374 /* DarwinNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD08628285006BA006A0374 /* DarwinNotificationCenter.swift */; };
+		DFD0862B285008D7006A0374 /* DarwinNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD0862A285008D7006A0374 /* DarwinNotification.swift */; };
 		F0C2712126CD3D0000211F15 /* CFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C2711726CD3D0000211F15 /* CFoundation.framework */; };
 		F0C2712626CD3D0000211F15 /* CFoundationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C2712526CD3D0000211F15 /* CFoundationTests.swift */; };
 		F0C2712826CD3D0000211F15 /* CFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = F0C2711A26CD3D0000211F15 /* CFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -59,6 +63,10 @@
 		625FDDBEABD575201198F271 /* Pods-CFoundation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CFoundation.debug.xcconfig"; path = "Target Support Files/Pods-CFoundation/Pods-CFoundation.debug.xcconfig"; sourceTree = "<group>"; };
 		98A4DE64D908ADECEF9644CF /* Pods-CFoundationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CFoundationTests.debug.xcconfig"; path = "Target Support Files/Pods-CFoundationTests/Pods-CFoundationTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D43DB9D20AB98628778C3D2C /* Pods-CFoundationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CFoundationTests.release.xcconfig"; path = "Target Support Files/Pods-CFoundationTests/Pods-CFoundationTests.release.xcconfig"; sourceTree = "<group>"; };
+		DFD0862128500592006A0374 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
+		DFD08623285005C4006A0374 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
+		DFD08628285006BA006A0374 /* DarwinNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarwinNotificationCenter.swift; sourceTree = "<group>"; };
+		DFD0862A285008D7006A0374 /* DarwinNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarwinNotification.swift; sourceTree = "<group>"; };
 		F0C2711726CD3D0000211F15 /* CFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0C2711A26CD3D0000211F15 /* CFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CFoundation.h; sourceTree = "<group>"; };
 		F0C2711B26CD3D0000211F15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -153,6 +161,42 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		DFD0861E2850051F006A0374 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				F0C2714F26CD3E1400211F15 /* Keychain.swift */,
+				F0C2715026CD3E1400211F15 /* JailbreakDetector.swift */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
+		DFD0861F28500549006A0374 /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				F0C2714826CD3E1400211F15 /* DeviceSpecifications.swift */,
+			);
+			path = Device;
+			sourceTree = "<group>";
+		};
+		DFD0862028500561006A0374 /* DataStructure */ = {
+			isa = PBXGroup;
+			children = (
+				DFD0862128500592006A0374 /* Queue.swift */,
+				DFD08623285005C4006A0374 /* LinkedList.swift */,
+				F0C2714126CD3E1400211F15 /* ReferenceArray.swift */,
+			);
+			path = DataStructure;
+			sourceTree = "<group>";
+		};
+		DFD0862728500638006A0374 /* Darwin */ = {
+			isa = PBXGroup;
+			children = (
+				DFD0862A285008D7006A0374 /* DarwinNotification.swift */,
+				DFD08628285006BA006A0374 /* DarwinNotificationCenter.swift */,
+			);
+			path = Darwin;
+			sourceTree = "<group>";
+		};
 		F0C2710D26CD3D0000211F15 = {
 			isa = PBXGroup;
 			children = (
@@ -211,20 +255,19 @@
 		F0C2713C26CD3E1400211F15 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				F0C2714F26CD3E1400211F15 /* Keychain.swift */,
-				F0C2714526CD3E1400211F15 /* Protected.swift */,
 				F0C2714426CD3E1400211F15 /* CFoundation.swift */,
-				F0C2714126CD3E1400211F15 /* ReferenceArray.swift */,
-				F0C2715026CD3E1400211F15 /* JailbreakDetector.swift */,
-				F0C2714826CD3E1400211F15 /* DeviceSpecifications.swift */,
 				F0C2714626CD3E1400211F15 /* Logic */,
 				F0C2715326CD3E1400211F15 /* Errors */,
+				DFD0862728500638006A0374 /* Darwin */,
+				DFD0861F28500549006A0374 /* Device */,
 				F0C2715126CD3E1400211F15 /* Queues */,
+				DFD0861E2850051F006A0374 /* Security */,
 				F0C2715726CD3E1400211F15 /* Logging */,
 				F0C2714C26CD3E1400211F15 /* Extensions */,
 				F0C2715B26CD3E1400211F15 /* Localization */,
 				F0C2714926CD3E1400211F15 /* Permissions */,
 				F0C2713D26CD3E1400211F15 /* TimersSource */,
+				DFD0862028500561006A0374 /* DataStructure */,
 				F0C2714226CD3E1400211F15 /* BundleResources */,
 			);
 			path = Sources;
@@ -276,6 +319,7 @@
 		F0C2715126CD3E1400211F15 /* Queues */ = {
 			isa = PBXGroup;
 			children = (
+				F0C2714526CD3E1400211F15 /* Protected.swift */,
 				F0C2715226CD3E1400211F15 /* DelaySearchPerformer.swift */,
 			);
 			path = Queues;
@@ -565,21 +609,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFD08629285006BA006A0374 /* DarwinNotificationCenter.swift in Sources */,
 				F0C2715F26CD3E1400211F15 /* XCTSourceLoader.swift in Sources */,
 				F0C2717426CD3E1400211F15 /* Logger.swift in Sources */,
 				F0C2716326CD3E1400211F15 /* TimersSource.swift in Sources */,
 				F0C2717026CD3E1400211F15 /* DelaySearchPerformer.swift in Sources */,
 				F0C2716426CD3E1400211F15 /* ReferenceArray.swift in Sources */,
 				F0C2716E26CD3E1400211F15 /* Keychain.swift in Sources */,
+				DFD08624285005C4006A0374 /* LinkedList.swift in Sources */,
 				F0C2716C26CD3E1400211F15 /* DispatchQueue.swift in Sources */,
 				F0C2717326CD3E1400211F15 /* CameraPermissionsError.swift in Sources */,
 				F0C2716526CD3E1400211F15 /* SourceLoader.swift in Sources */,
 				F0C2716126CD3E1400211F15 /* SourceTimer.swift in Sources */,
 				F0C2716726CD3E1400211F15 /* Protected.swift in Sources */,
+				DFD0862B285008D7006A0374 /* DarwinNotification.swift in Sources */,
 				F0C2716826CD3E1400211F15 /* PhonePatternBuilder.swift in Sources */,
 				F0C2716626CD3E1400211F15 /* CFoundation.swift in Sources */,
 				F0C2716926CD3E1400211F15 /* DeviceSpecifications.swift in Sources */,
 				F0C2716D26CD3E1400211F15 /* String.swift in Sources */,
+				DFD0862228500592006A0374 /* Queue.swift in Sources */,
 				F0C2716226CD3E1400211F15 /* Timer.swift in Sources */,
 				F0C2717726CD3E1400211F15 /* Localization+String.swift in Sources */,
 				F0C2716F26CD3E1400211F15 /* JailbreakDetector.swift in Sources */,

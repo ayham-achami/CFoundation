@@ -50,7 +50,7 @@ public protocol Timer: AnyObject {
     /// Отменить таймер
     func cancel()
 
-    /// Всстановить таймер
+    /// Восстановить таймер
     func resume()
 
     /// Остановить таймер

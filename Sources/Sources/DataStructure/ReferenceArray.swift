@@ -37,7 +37,7 @@ public struct ReferenceArray<Element: AnyObject>: ExpressibleByArrayLiteral {
         weak var element: Element?
     }
 
-    /// Массив обложк ссылак
+    /// Массив ссылок
     private var references: [Box<Element>] = []
 
     /// Инициализация
@@ -47,14 +47,14 @@ public struct ReferenceArray<Element: AnyObject>: ExpressibleByArrayLiteral {
         references = elements.map(Box.init(element:))
     }
 
-    /// Добваить ссылку
+    /// Добавить ссылку
     /// - Parameter element: Ссылка
     public mutating func append(_ element: Element) {
         guard !references.contains(where: { $0.element === element }) else { return }
         references.append(Box(element: element))
     }
 
-    /// Убрать ссылку по индиксу
+    /// Убрать ссылку по индексу
     /// - Parameter index: Индекс ссылки
     @discardableResult
     public mutating func remove(_ index: Int) -> Element? {

@@ -39,7 +39,7 @@ public class Logger {
         case release
     }
 
-    /// уровеня логирования
+    /// уровня логирования
     ///
     /// - debug: дебаг
     /// - error: ошибка
@@ -368,7 +368,7 @@ public class Logger {
             fileHandler.truncateFile(atOffset: 0)
             fileHandler.seek(toFileOffset: 0)
         } else if UInt64(reportFile.count) + fileOffset > maxFileSize {
-            // если не влезаем в органичения по размеру файла, то усекаем файл в начале
+            // если не влезаем в ограничения по размеру файла, то усекаем файл в начале
             fileHandler.truncateFile(atOffset: max(0, maxFileSize - UInt64(reportFile.count)))
             fileHandler.seekToEndOfFile()
         }
@@ -400,7 +400,7 @@ extension Logger {
         debug(convertible.logDescription, file, function, line)
     }
 
-    /// Вывод сообщения уровня ошбики
+    /// Вывод сообщения уровня ошибки
     ///
     /// - Parameters:
     ///   - convertible: текст для логирования

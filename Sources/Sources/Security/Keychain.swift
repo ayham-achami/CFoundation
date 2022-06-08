@@ -27,14 +27,12 @@ import Foundation
 import LocalAuthentication
 
 // MARK: - Service
-@available(iOS 11.3, *)
 public protocol KeychainService {}
 
 /// Тип сохраняемого элемента в Keychain
 typealias KeychainItem = Codable
 
 // MARK: - Error
-@available(iOS 11.3, *)
 public enum KeychainError: Error {
 
     case noData
@@ -55,7 +53,6 @@ public enum KeychainError: Error {
 }
 
 // MARK: - AccessOption
-@available(iOS 11.3, *)
 public enum KeychainAccessOption {
 
     /// Доступ к данным в `Keychain` возможен только в том случае, если
@@ -106,16 +103,15 @@ public enum KeychainAccessOption {
 }
 
 // MARK: - Configuration
-@available(iOS 11.3, *)
 public struct KeychainConfiguration {
 
     public typealias Service = KeychainService & RawRepresentable
     
     public struct SecureAccess {
         
-        public static var `defualt`: SecureAccess { .init(context: nil,
-                                                      operationPrompt: nil,
-                                                      accessFlags: .biometryCurrentSet) }
+        public static var `default`: SecureAccess { .init(context: nil,
+                                                          operationPrompt: nil,
+                                                          accessFlags: .biometryCurrentSet) }
         
         public let context: LAContext?
         public let operationPrompt: String?
@@ -153,7 +149,6 @@ public struct KeychainConfiguration {
 }
 
 /// Keychain
-@available(iOS 11.3, *)
 public struct Keychain {
 
     /// Конфигурации
@@ -165,12 +160,12 @@ public struct Keychain {
         self.configuration = configuration
     }
     
-    /// Cохранить ключ
+    /// Сохранить ключ
     /// - Parameters:
     ///   - data: данные
     /// - Throws: `KeychainError`
     public func save(_ data: Data) throws {
-        try save(data, throwIfexists: false)
+        try save(data, throwIfExists: false)
     }
     
     /// Загрузить данные из keychain по ключу
@@ -219,12 +214,12 @@ public struct Keychain {
         }
     }
     
-    /// Cохранить ключ
+    /// Сохранить ключ
     /// - Parameters:
     ///   - data: данные
-    ///   - throwIfexists: Кидать ли ошибку если данные по указанному ключу уже существуют
+    ///   - throwIfExists: Кидать ли ошибку если данные по указанному ключу уже существуют
     /// - Throws: `KeychainError`
-    public func save(_ data: Data, throwIfexists: Bool) throws {
+    public func save(_ data: Data, throwIfExists: Bool) throws {
         var query: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
                                     kSecAttrAccount as String: configuration.account,
                                     kSecAttrServer as String: configuration.service,
@@ -248,7 +243,7 @@ public struct Keychain {
             query[kSecAttrAccessGroup as String] = accessGroup
         }
         var status = SecItemAdd(query as CFDictionary, nil)
-        if !throwIfexists && status == errSecDuplicateItem {
+        if !throwIfExists && status == errSecDuplicateItem {
             let attributes: [String: Any] = [kSecValueData as String: data]
             status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
         }

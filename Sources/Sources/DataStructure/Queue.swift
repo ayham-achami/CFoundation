@@ -1,5 +1,5 @@
 //
-//  Localization+String.swift
+//  Queue.swift
 //
 //  The MIT License (MIT)
 //
@@ -25,27 +25,40 @@
 
 import Foundation
 
-// MARK: - String
-public extension String {
-
-    /// Нотация функции для локализации библиотеки
-    typealias Lookup = ((String, String) -> String)
+/// Очередь
+public struct Queue<Element> {
     
-    /// Функция для кастомной локализации библиотеки
-    static var localizationFunction: Lookup = { key, table in
-        NSLocalizedString(key, tableName: table, comment: key)
+    /// Звязный список
+    private var list = LinkedList<Element>()
+    
+    /// Пустая ли очередь
+    public var isEmpty: Bool {
+        list.isEmpty
     }
     
-    /// Возвращает локализованную строку
-    var localized: String {
-        String.localizationFunction(self, "")
+    /// Добавить элемент к очереди
+    /// - Parameter element: Элемент для добавления
+    public mutating func enqueue(_ element: Element) {
+        list.append(element)
     }
+    
+    /// Исключать элемент из очереди, если очередь пустая то возвращается nil
+    /// - Returns: Исключенный элемент
+    public mutating func dequeue() -> Element? {
+        guard !list.isEmpty, let element = list.first else { return nil }
+        list.remove(element)
+        return element.value
+    }
+    
+    public func peek() -> Element? {
+        list.first?.value
+    }
+}
 
-    /// Возвращает локализованную строку вставляя в ней заданные аргументы
-    ///
-    /// - Parameter arg: Аргументы
-    /// - Returns:  Локализованную строку с аргументами
-    func localized(args: CVarArg...) -> String {
-        withVaList(args) { NSString(format: self.localized, arguments: $0) } as String
+// MARK: - Queue + CustomStringConvertible
+extension Queue: CustomStringConvertible {
+
+    public var description: String {
+        list.description
     }
 }
