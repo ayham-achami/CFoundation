@@ -28,8 +28,9 @@ import Foundation
 // MARK: - CFNotificationName + DarwinNotification
 extension CFNotificationName {
     
-    var stringName: DarwinNotification.Name {
-        .init(name: rawValue as String)
+    /// Название уведомления
+    var name: DarwinNotification.Name {
+        .init(rawValue: rawValue as String)
     }
 }
 
@@ -51,7 +52,7 @@ public final class DarwinNotificationCenter {
     /// Отправить нотификацию с указанным именем
     /// - Parameter name: Имя нотификации
     public func postNotification(name: DarwinNotification.Name) {
-        CFNotificationCenterPostNotification(cfCenter, CFNotificationName(rawValue: name.cfString), nil, nil, true)
+        CFNotificationCenterPostNotification(cfCenter, CFNotificationName(rawValue: name.cfName), nil, nil, true)
     }
     
     /// Подписаться на получение нотификации с указанным названием
@@ -60,34 +61,49 @@ public final class DarwinNotificationCenter {
     ///   - closure: Замыкание вызываемое при получении нотификации
     /// - Returns: `DarwinNotification.Observer`
     public func observeNotification(name: DarwinNotification.Name,
-                                    _ closure: @escaping () -> Void) -> DarwinNotification.Subscription? {
-        let token = DarwinNotification.Subscription(invocation: closure)
-        let pointer = UnsafeRawPointer(Unmanaged.passUnretained(token).toOpaque())
-        CFNotificationCenterAddObserver(cfCenter, pointer, { _, token, _, _, _ in
-            guard let token = token else { return }
-            Unmanaged<DarwinNotification.Subscription>.fromOpaque(token)
+                                    behavior: CFNotificationSuspensionBehavior = .deliverImmediately,
+                                    _ closure: @escaping () -> Void) -> DarwinNotification.Subscription {
+        let subscription = DarwinNotification.Subscription(invocation: closure)
+        let pointer = UnsafeRawPointer(Unmanaged.passUnretained(subscription).toOpaque())
+        let observation: CFNotificationCallback = { _, subscription, _, _, _ in
+            guard let subscription = subscription else { return }
+            Unmanaged<DarwinNotification.Subscription>
+                .fromOpaque(subscription)
                 .takeUnretainedValue()
                 .invoke()
-        }, name.cfString, nil, .deliverImmediately)
-        return token
+        }
+        CFNotificationCenterAddObserver(cfCenter, pointer, observation, name.cfName, nil, behavior)
+        return subscription
     }
     
     /// Подписаться на все нотификации
     /// - Parameter closure: Замыкание вызываемое при получении нотификации
     /// - Returns: `DarwinNotification.Observer`
-    public func observeNotifications(_ closure: @escaping (_ notification: DarwinNotification.Name) -> Void) -> DarwinNotification.Subscription? {
-        let token = DarwinNotification.Subscription(namedInvocation: closure)
-        let pointer = UnsafeRawPointer(Unmanaged.passUnretained(token).toOpaque())
-        CFNotificationCenterAddObserver(cfCenter, pointer, { _, token, notification, _, _ in
+    public func observeNotifications(behavior: CFNotificationSuspensionBehavior = .deliverImmediately,
+                                     _ closure: @escaping (_ notification: DarwinNotification.Name) -> Void) -> DarwinNotification.Subscription {
+        let subscription = DarwinNotification.Subscription(namedInvocation: closure)
+        let pointer = UnsafeRawPointer(Unmanaged.passUnretained(subscription).toOpaque())
+        let observation: CFNotificationCallback = { _, subscription, notification, _, _ in
             guard
-                let token = token,
+                let subscription = subscription,
                 let notification = notification
             else { return }
-            Unmanaged<DarwinNotification.Subscription>.fromOpaque(token)
+            Unmanaged<DarwinNotification.Subscription>.fromOpaque(subscription)
                 .takeUnretainedValue()
-                .invoke(notification.stringName)
-        }, nil, nil, .deliverImmediately)
-        return token
+                .invoke(notification.name)
+        }
+        CFNotificationCenterAddObserver(cfCenter, pointer, observation, nil, nil, .deliverImmediately)
+        return subscription
+    }
+
+    /// Возвращает Publisher, который генерирует события при широковещательной рассылке уведомлений.
+    /// - Parameters:
+    ///   - name: Имя нотификации
+    ///   - behavior: Флаги приостановки
+    /// - Returns: `DarwinNotificationCenter.Publisher`
+    public func publisher(for name: DarwinNotification.Name,
+                          behavior: CFNotificationSuspensionBehavior = .deliverImmediately) -> DarwinNotificationCenter.Publisher {
+        .init(name.cfName, cfCenter, behavior)
     }
     
     /// Запрещает наблюдателю получать какие-либо уведомления от любого объекта

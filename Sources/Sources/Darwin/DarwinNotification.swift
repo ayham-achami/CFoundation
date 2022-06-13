@@ -38,14 +38,14 @@ public extension DarwinNotification {
         let name: String
         
         /// Название нотификации в виде `CFString`
-        var cfString: CFString {
+        var cfName: CFString {
             name as CFString
         }
         
         /// Инициализация
         /// - Parameter name: Название нотификации
-        public init(name: String) {
-            self.name = name
+        public init(rawValue: String) {
+            self.name = "CFoundation.DarwinNotification.Name.\(rawValue)"
         }
     }
 }
