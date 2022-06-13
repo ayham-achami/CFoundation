@@ -36,6 +36,11 @@ public struct Queue<Element> {
         list.isEmpty
     }
     
+    /// Количество элементов в списке
+    public var count: Int {
+        list.count
+    }
+    
     /// Добавить элемент к очереди
     /// - Parameter element: Элемент для добавления
     public mutating func enqueue(_ element: Element) {
@@ -52,6 +57,14 @@ public struct Queue<Element> {
     
     public func peek() -> Element? {
         list.first?.value
+    }
+}
+
+// MARK: - Queue + Sequence
+extension Queue: Sequence {
+    
+    public func makeIterator() -> some IteratorProtocol {
+        list.makeIterator()
     }
 }
 

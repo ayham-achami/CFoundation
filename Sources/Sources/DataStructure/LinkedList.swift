@@ -47,11 +47,38 @@ public struct LinkedList<Element> {
         }
     }
     
+    /// Тип, который выдает значения последовательности по одному.
+    public struct Iterator: IteratorProtocol {
+        
+        private var node: Node<Element>?
+        
+        /// Инициализация
+        /// - Parameter list: Звязный список
+        public init(head: Node<Element>?) {
+            self.node = head
+        }
+        
+        public mutating func next() -> Element? {
+            defer { node = node?.next }
+            return node?.value
+        }
+    }
+    
     /// Самый первый элемент списка
     private var head: Node<Element>?
     
     /// Самый крайний элемент списка
     private var tail: Node<Element>?
+    
+    /// Количество элементов в списке
+    public var count: Int {
+        var count = 0
+        var iterator = Iterator(head: head)
+        while iterator.next() != nil {
+            count += 1
+        }
+        return count
+    }
     
     /// Пустой ли список
     public var isEmpty: Bool {
@@ -93,8 +120,15 @@ public struct LinkedList<Element> {
         }
         node.previous = nil
         node.next = nil
-        
         return node.value
+    }
+}
+
+// MARK: - LinkedList + Sequence
+extension LinkedList: Sequence {
+        
+    public func makeIterator() -> Iterator {
+        Iterator(head: self.head)
     }
 }
 
@@ -102,13 +136,6 @@ public struct LinkedList<Element> {
 extension LinkedList: CustomStringConvertible {
     
     public var description: String {
-        var text = "["
-        var node = head
-        while node != nil {
-            text += "\(node!.value)"
-            node = node!.next
-            if node != nil { text += ", " }
-        }
-        return text + "]"
+        map { $0 }.description
     }
 }
