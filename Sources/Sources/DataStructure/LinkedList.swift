@@ -25,7 +25,7 @@
 
 import Foundation
 
-/// Звязный список
+/// Связный двунаправленный список
 public struct LinkedList<Element> {
     
     /// Узел между элементами
@@ -71,14 +71,7 @@ public struct LinkedList<Element> {
     private var tail: Node<Element>?
     
     /// Количество элементов в списке
-    public var count: Int {
-        var count = 0
-        var iterator = Iterator(head: head)
-        while iterator.next() != nil {
-            count += 1
-        }
-        return count
-    }
+    public private(set) var count: Int = 0
     
     /// Пустой ли список
     public var isEmpty: Bool {
@@ -101,6 +94,7 @@ public struct LinkedList<Element> {
             head = newNode
         }
         tail = newNode
+        count += 1
     }
     
     /// Удалить элемент из списка
@@ -120,6 +114,9 @@ public struct LinkedList<Element> {
         }
         node.previous = nil
         node.next = nil
+        if count > .zero {
+            count -= 1
+        }
         return node.value
     }
 }
@@ -129,6 +126,26 @@ extension LinkedList: Sequence {
         
     public func makeIterator() -> Iterator {
         Iterator(head: self.head)
+    }
+}
+
+// MARK: - LinkedList + Codable
+extension LinkedList: Codable where Element: Codable {
+    
+    public init(from decoder: Decoder) throws {
+        self.init()
+        var container = try decoder.unkeyedContainer()
+        while !container.isAtEnd {
+            let element = try container.decode(Element.self)
+            self.append(element)
+        }
+    }
+    
+    @inlinable public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        for element in self {
+            try container.encode(element)
+        }
     }
 }
 

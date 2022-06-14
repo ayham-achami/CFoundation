@@ -28,8 +28,8 @@ import Foundation
 /// Очередь
 public struct Queue<Element> {
     
-    /// Звязный список
-    private var list = LinkedList<Element>()
+    /// Связный список
+    fileprivate var list = LinkedList<Element>()
     
     /// Пустая ли очередь
     public var isEmpty: Bool {
@@ -47,7 +47,7 @@ public struct Queue<Element> {
         list.append(element)
     }
     
-    /// Исключать элемент из очереди, если очередь пустая то возвращается nil
+    /// Исключить элемент из очереди, если очередь пустая то возвращается nil
     /// - Returns: Исключенный элемент
     public mutating func dequeue() -> Element? {
         guard !list.isEmpty, let element = list.first else { return nil }
@@ -65,6 +65,18 @@ extension Queue: Sequence {
     
     public func makeIterator() -> some IteratorProtocol {
         list.makeIterator()
+    }
+}
+
+// MARK: - LinkedList + Codable
+extension Queue: Codable where Element: Codable {
+    
+    public init(from decoder: Decoder) throws {
+        self.list = try .init(from: decoder)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        try list.encode(to: encoder)
     }
 }
 
