@@ -42,12 +42,12 @@ public struct SortDescriptor<Value> {
 }
 
 // MARK: - SortDescriptor + Value
-public extension SortDescriptor {
+extension SortDescriptor {
     
     /// Возвращает `SortDescriptor` для заданного `KeyPath`
     /// - Parameter keyPath: `KeyPath` значения
     /// - Returns: `SortDescriptor`
-    static func value<T>(_ keyPath: KeyPath<Value, T>) -> Self where T: Comparable {
+    public static func value<T>(_ keyPath: KeyPath<Value, T>) -> Self where T: Comparable {
         .init { lRoot, rRoot in
             let lhs = lRoot[keyPath: keyPath]
             let rhs = rRoot[keyPath: keyPath]

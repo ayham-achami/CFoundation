@@ -41,6 +41,9 @@ public struct Queue<Element> {
         list.count
     }
     
+    /// Инициализация
+    public init() {}
+    
     /// Добавить элемент к очереди
     /// - Parameter element: Элемент для добавления
     public mutating func enqueue(_ element: Element) {
