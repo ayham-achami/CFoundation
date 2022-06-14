@@ -50,13 +50,13 @@ public struct Queue<Element> {
     /// Исключить элемент из очереди, если очередь пустая то возвращается nil
     /// - Returns: Исключенный элемент
     public mutating func dequeue() -> Element? {
-        guard !list.isEmpty, let element = list.first else { return nil }
+        guard !list.isEmpty, let element = list.head else { return nil }
         list.remove(element)
         return element.value
     }
     
     public func peek() -> Element? {
-        list.first?.value
+        list.first
     }
 }
 

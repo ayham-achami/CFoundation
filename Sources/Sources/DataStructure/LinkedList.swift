@@ -32,13 +32,13 @@ public struct LinkedList<Element> {
     public class Node<Element> {
         
         /// Значение узла
-        public var value: Element
+        public private(set) var value: Element
         
         /// Следующий узел
-        public var next: Node<Element>?
+        fileprivate var next: Node<Element>?
         
         /// Предыдущий узел
-        public var previous: Node<Element>?
+        fileprivate var previous: Node<Element>?
         
         /// Инициализация
         /// - Parameter value: Значение узла
@@ -65,10 +65,10 @@ public struct LinkedList<Element> {
     }
     
     /// Самый первый элемент списка
-    private var head: Node<Element>?
+    public private(set) var head: Node<Element>?
     
     /// Самый крайний элемент списка
-    private var tail: Node<Element>?
+    public private(set) var tail: Node<Element>?
     
     /// Количество элементов в списке
     public private(set) var count: Int = 0
@@ -79,9 +79,17 @@ public struct LinkedList<Element> {
     }
     
     /// Первый элемент списка
-    public var first: Node<Element>? {
-        head
+    public var first: Element? {
+        head?.value
     }
+    
+    /// Последный элемент списка
+    public var last: Element? {
+        tail?.value
+    }
+    
+    /// Инициализация
+    public init() {}
     
     /// Добавить элемент к списку
     /// - Parameter value: Элемент для добавления
@@ -132,7 +140,7 @@ extension LinkedList: Sequence {
 // MARK: - LinkedList + Codable
 extension LinkedList: Codable where Element: Codable {
     
-    public init(from decoder: Decoder) throws {
+    @inlinable public init(from decoder: Decoder) throws {
         self.init()
         var container = try decoder.unkeyedContainer()
         while !container.isAtEnd {
