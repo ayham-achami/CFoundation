@@ -61,18 +61,12 @@ public extension Specifications {
 public extension Specifications {
     
     var orientation: DeviceOrientation {
-        let orientation: UIInterfaceOrientation
-        if #available(iOS 13.0, *) {
-            orientation = UIApplication
-                .shared
-                .windows
-                .first?
-                .windowScene?
-                .interfaceOrientation ?? .portrait
-        } else {
-            orientation = UIApplication.shared.statusBarOrientation
-        }
-        
+        let orientation = UIApplication
+            .shared
+            .windows
+            .first?
+            .windowScene?
+            .interfaceOrientation ?? .portrait
         switch orientation {
         case .landscapeLeft, .landscapeRight:
             return .landscape
