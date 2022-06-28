@@ -38,7 +38,13 @@ public struct SortDescriptor<Value> {
     }
     
     /// Замыкание сравнения
-    public var comparator: (Value, Value) -> ComparisonResult
+    public let comparator: (Value, Value) -> ComparisonResult
+    
+    /// Инициализация
+    /// - Parameter comparator: Замыкание сравнения
+    public init(_ comparator: @escaping (Value, Value) -> ComparisonResult) {
+        self.comparator = comparator
+    }
 }
 
 // MARK: - SortDescriptor + Value
