@@ -30,7 +30,7 @@ public protocol DelaySearchPerformerDelegate: AnyObject {
 
     /// Вызывается когда необходимо выполнять поиск
     /// - Parameters:
-    ///   - performer: Объект Вызываеюший
+    ///   - performer: Объект вызывающий
     ///   - search: Объект поиска
     func delaySearchPerformer<Searched>(_ performer: DelaySearchPerformer<Searched>, didPerformSearch search: Searched)
 }
@@ -54,15 +54,15 @@ public class DelaySearchPerformer<Searched> {
     ///   - delay: Задержка поиска
     ///   - delegate: Делегат поиска
     ///   - searchQueue: Очередь поиска
-    public init(initail: Searched? = nil,
+    public init(initial: Searched? = nil,
                 delay: DispatchTimeInterval = .milliseconds(500),
                 delegate: DelaySearchPerformerDelegate? = nil,
                 searchQueue: DispatchQueue = .main) {
         self.delay = delay
         self.delegate = delegate
         self.searchQueue = searchQueue
-        guard let initail = initail else { return }
-        searchQueue.async { [weak self]  in self?.prepareSearch(initail) }
+        guard let initial = initial else { return }
+        searchQueue.async { [weak self]  in self?.prepareSearch(initial) }
     }
 
     /// Выполнять поиск по заданному параметру

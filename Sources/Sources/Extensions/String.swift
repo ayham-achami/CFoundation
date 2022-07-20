@@ -27,17 +27,17 @@ import Foundation
 
 // MARK: - String
 public extension String {
-
+ 
     /// проверит является ли строка действительным номером телефона
     ///
     /// - Parameters:
-    ///   - prifix: код страны без + например 7
+    ///   - prefix: код страны без + например 7
     ///   - holder: символ занимающий места цифры в маске например #
     ///   - mask: маска ввода на пример (###)###-##-##
     /// - Returns: true если строка действительным номером телефона иначе false
-    func isValidPhoneNumber(holder: Character, prifix: String, mask: String) -> Bool {
+    func isValidPhoneNumber(holder: Character, prefix: String, mask: String) -> Bool {
         guard let pattern = try? PhonePatternBuilder(holder: holder)
-            .with(prefix: prifix)
+            .with(prefix: prefix)
             .with(mask: mask)
             .build() else { return false }
         return range(of: pattern, options: .regularExpression) != nil

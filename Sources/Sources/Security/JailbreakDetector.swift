@@ -33,11 +33,10 @@ public struct JailbreakDetector {
         #if targetEnvironment(simulator)
         return false
         #else
-        if checkFork() { return true }
-        if checkExistenceOfSuspiciousFiles() { return true }
-        if checkSuspiciousFilesCanBeOpened() { return true }
-        if checkRestrictedDirectoriesWriteable() { return true }
-        return false
+        return checkFork() ||
+        checkExistenceOfSuspiciousFiles() ||
+        checkSuspiciousFilesCanBeOpened() ||
+        checkRestrictedDirectoriesWriteable()
         #endif
     }
     

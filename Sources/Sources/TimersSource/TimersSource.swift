@@ -51,7 +51,7 @@ public class TimersSource {
         self.timersType = timersType
     }
 
-    /// Создает и возвращает таймре по заданными параметрами
+    /// Создает и возвращает таймер по заданными параметрами
     /// - Parameter queue: Очередь где таймер будет выполняться
     /// - Returns: Объект таймера
     public func makeTimer(on queue: DispatchQueue = .main) -> Timer {
@@ -66,7 +66,7 @@ public class TimersSource {
     /// - Returns: Объект таймера
     public func timer(at id: UUID) -> Timer? { source[id] }
 
-    /// Создает и возвращает таймре по заданными параметрами типа `DispatchSourceTimer`
+    /// Создает и возвращает таймер по заданными параметрами типа `DispatchSourceTimer`
     /// - Parameters:
     ///   - id: Идентификатор таймера
     ///   - queue: Очередь где таймер будет выполняться

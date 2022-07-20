@@ -49,6 +49,12 @@ extension Array: Model {}
 // MARK: - Dictionary + Model
 extension Dictionary: Model {}
 
+// MARK: - LinkedList + Model
+extension LinkedList: Model {}
+
+// MARK: - Queue: Model
+extension Queue: Model {}
+
 // MARK: - Data + Model
 extension Data: Model {}
 
