@@ -61,6 +61,38 @@ extension SortDescriptor {
             return lhs < rhs ? .orderedAscending : .orderedDescending
         }
     }
+    
+    /// Возвращает `SortDescriptor` для заданного `KeyPath`. Сортирует по алфавиту
+    /// - Parameter keyPath: `KeyPath` значения
+    /// - Returns: `SortDescriptor`
+    public static func nameValue(_ keyPath: KeyPath<Value, String>) -> Self {
+        .init { lRoot, rRoot in
+            let lhs = lRoot[keyPath: keyPath]
+            let rhs = rRoot[keyPath: keyPath]
+            return lhs.caseInsensitiveCompare(rhs)
+        }
+    }
+    
+    /// Возвращает `SortDescriptor` для заданного `KeyPath`. Работает с опциональными значениями
+    /// - Parameter keyPath: `KeyPath` значения
+    /// - Returns: `SortDescriptor`
+    public static func value<T>(_ keyPath: KeyPath<Value, T?>) -> Self where T: Comparable {
+        .init { lRoot, rRoot in
+            let lhs = lRoot[keyPath: keyPath]
+            let rhs = rRoot[keyPath: keyPath]
+            switch (lhs, rhs) {
+            case (.none, .none):
+                return .orderedSame
+            case (_, .none):
+                return .orderedAscending
+            case (.none, _):
+                return .orderedDescending
+            case let (.some(lhs), .some(rhs)):
+                guard lhs != rhs else { return .orderedSame }
+                return lhs < rhs ? .orderedAscending : .orderedDescending
+            }
+        }
+    }
 }
 
 // MARK: - Sequence + Sort with KeyPath
