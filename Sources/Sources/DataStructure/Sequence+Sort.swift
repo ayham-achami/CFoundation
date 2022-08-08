@@ -62,17 +62,6 @@ extension SortDescriptor {
         }
     }
     
-    /// Возвращает `SortDescriptor` для заданного `KeyPath`. Сортирует по алфавиту
-    /// - Parameter keyPath: `KeyPath` значения
-    /// - Returns: `SortDescriptor`
-    public static func nameValue(_ keyPath: KeyPath<Value, String>) -> Self {
-        .init { lRoot, rRoot in
-            let lhs = lRoot[keyPath: keyPath]
-            let rhs = rRoot[keyPath: keyPath]
-            return lhs.caseInsensitiveCompare(rhs)
-        }
-    }
-    
     /// Возвращает `SortDescriptor` для заданного `KeyPath`. Работает с опциональными значениями
     /// - Parameter keyPath: `KeyPath` значения
     /// - Returns: `SortDescriptor`
