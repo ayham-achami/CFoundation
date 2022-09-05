@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 
 /// Любой подписчик `DarwinNotificationCenter`
 protocol AnyDarwinNotificationSubscriber: AnyObject {
