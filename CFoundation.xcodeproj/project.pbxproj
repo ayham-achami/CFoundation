@@ -17,6 +17,7 @@
 		DFD0863128536AB9006A0374 /* DarwinNotificationPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD0863028536AB9006A0374 /* DarwinNotificationPublisher.swift */; };
 		DFD0863228574B86006A0374 /* CFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C2711726CD3D0000211F15 /* CFoundation.framework */; };
 		DFD0863328574B86006A0374 /* CFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F0C2711726CD3D0000211F15 /* CFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DFD2E86128BF7D9100A13691 /* Gzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD2E86028BF7D9100A13691 /* Gzip.swift */; };
 		F0C2712126CD3D0000211F15 /* CFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C2711726CD3D0000211F15 /* CFoundation.framework */; };
 		F0C2712626CD3D0000211F15 /* CFoundationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C2712526CD3D0000211F15 /* CFoundationTests.swift */; };
 		F0C2712826CD3D0000211F15 /* CFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = F0C2711A26CD3D0000211F15 /* CFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -94,6 +95,7 @@
 		DFD0862A285008D7006A0374 /* DarwinNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarwinNotification.swift; sourceTree = "<group>"; };
 		DFD0862C2850864E006A0374 /* Sequence+Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Sort.swift"; sourceTree = "<group>"; };
 		DFD0863028536AB9006A0374 /* DarwinNotificationPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarwinNotificationPublisher.swift; sourceTree = "<group>"; };
+		DFD2E86028BF7D9100A13691 /* Gzip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gzip.swift; sourceTree = "<group>"; };
 		F0C2711726CD3D0000211F15 /* CFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0C2711A26CD3D0000211F15 /* CFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CFoundation.h; sourceTree = "<group>"; };
 		F0C2711B26CD3D0000211F15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -227,6 +229,14 @@
 			path = Darwin;
 			sourceTree = "<group>";
 		};
+		DFD2E85F28BF7D8300A13691 /* Gzip */ = {
+			isa = PBXGroup;
+			children = (
+				DFD2E86028BF7D9100A13691 /* Gzip.swift */,
+			);
+			path = Gzip;
+			sourceTree = "<group>";
+		};
 		F0C2710D26CD3D0000211F15 = {
 			isa = PBXGroup;
 			children = (
@@ -286,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				F0C2714426CD3E1400211F15 /* CFoundation.swift */,
+				DFD2E85F28BF7D8300A13691 /* Gzip */,
 				F0C2714626CD3E1400211F15 /* Logic */,
 				F0C2715326CD3E1400211F15 /* Errors */,
 				DFD0862728500638006A0374 /* Darwin */,
@@ -656,6 +667,7 @@
 				F0C2716526CD3E1400211F15 /* SourceLoader.swift in Sources */,
 				F0C2716126CD3E1400211F15 /* SourceTimer.swift in Sources */,
 				F0C2716726CD3E1400211F15 /* Protected.swift in Sources */,
+				DFD2E86128BF7D9100A13691 /* Gzip.swift in Sources */,
 				DFD0862B285008D7006A0374 /* DarwinNotification.swift in Sources */,
 				F0C2716826CD3E1400211F15 /* PhonePatternBuilder.swift in Sources */,
 				F0C2716626CD3E1400211F15 /* CFoundation.swift in Sources */,
