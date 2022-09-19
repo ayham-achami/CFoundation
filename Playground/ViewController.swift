@@ -24,11 +24,49 @@
 //  SOFTWARE.
 
 import UIKit
+import Combine
+import CFoundation
+
+extension DarwinNotification.Name {
+    
+    static let someNotification = Self(rawValue: "someNotification")
+}
 
 class ViewController: UIViewController {
 
+    var subscription1: AnyCancellable?
+    var subscription2: AnyCancellable?
+    var subscription3: AnyCancellable?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        subscription1 = Timer.publish(every: 2, on: .main, in: .default)
+            .autoconnect()
+            .scan(0) { counter, _ in
+                counter + 1
+            }.sink { [weak self] value in
+                DarwinNotificationCenter.default.postNotification(name: .someNotification)
+                print("Post notification [\(value)]")
+                if value > 10 {
+                    self?.subscription3?.cancel()
+                    self?.subscription3 = nil
+                }
+                if value > 20 {
+                    self?.subscription2?.cancel()
+                    self?.subscription2 = nil
+                }
+                if value > 30 {
+                    self?.subscription1?.cancel()
+                    self?.subscription1 = nil
+                }
+            }
+        subscription2 = DarwinNotificationCenter.default.publisher(for: .someNotification).sink {
+            print("Receive notification 1")
+        }
+        
+        subscription3 = DarwinNotificationCenter.default.publisher(for: .someNotification).sink { 
+            print("Receive notification 2")
+        }
     }
 }

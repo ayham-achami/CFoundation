@@ -33,7 +33,7 @@ public protocol KeychainService {}
 typealias KeychainItem = Codable
 
 // MARK: - Error
-public enum KeychainError: Error {
+public enum KeychainError: LocalizedError {
 
     case noData
     case authFailed
@@ -41,13 +41,13 @@ public enum KeychainError: Error {
     case unexpectedItemData
     case biometryUserCanceled
     case unhandledError(status: OSStatus)
-        
-    var errorDscription: String {
+    
+    public var errorDescription: String? {
         switch self {
         case let .unhandledError(status):
             return SecCopyErrorMessageString(status, nil) as String? ?? "Unknown error."
         default:
-            return String(describing: self)
+            return "\(String(describing: Self.self)).\(String(describing: self))"
         }
     }
 }
