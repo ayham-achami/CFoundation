@@ -23,7 +23,10 @@ let package = Package(
             name: "CFoundation",
             dependencies: [],
             path: "Sources",
-            exclude: ["Info.plist"]),
+            exclude: ["Info.plist"],
+            linkerSettings: [
+                .linkedFramework("Foundation")
+            ]),
         .testTarget(
             name: "CFoundationTests",
             dependencies: ["CFoundation"],
