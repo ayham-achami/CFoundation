@@ -6,7 +6,7 @@ import SwiftCompilerPlugin
 import SwiftSyntaxMacros
 
 @main
-struct CArchPlugin: CompilerPlugin {
+struct CFoundationMacro: CompilerPlugin {
     
     let providingMacros: [Macro.Type] = []
 }
