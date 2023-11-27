@@ -6,7 +6,7 @@ import Combine
 import Foundation
 
 // MARK: - Publisher + ContestableContext
-extension Publisher where Self.Failure == Never {
+public extension Publisher where Self.Failure == Never {
     
     /// Создает подписчика и немедленно запрашивает неограниченное количество
     /// значений перед возвратом подписчика.
@@ -67,7 +67,7 @@ extension Publisher where Self.Failure == Never {
 }
 
 // MARK: - Publisher + ContestableContext
-extension Publisher {
+public extension Publisher {
     
     /// Создает подписчика и немедленно запрашивает неограниченное количество
     /// значений перед возвратом подписчика.
