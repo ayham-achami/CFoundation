@@ -3,21 +3,94 @@
 //
 
 @testable import CFoundation
+import Combine
 import XCTest
+
+@globalActor public actor SomeActor {
+    
+    public static var shared = SomeActor()
+    
+    private init() {}
+}
 
 final class CombineContestableContextTests: XCTestCase {
 
-    @ContestableContext
-    var subscriptions: SubscriptionsStorage = .init()
-    
-    func testContestableSink() {
-        let expect = expectation(description: "all async assertions are complete")
-        (1...10).publisher.sink($subscriptions) { completion in
-            guard completion == .finished else { return }
-            expect.fulfill()
-        } receiveValue: { element in
-            print(element)
+    actor Service {
+        
+        private let group = DispatchGroup()
+        private let subject = PassthroughSubject<Int, Never>()
+        
+        nonisolated func subscribe() -> AnyPublisher<Int, Never> {
+            subject.eraseToAnyPublisher()
         }
-        wait(for: [expect], timeout: 30)
+        
+        func run() async {
+            await withTaskGroup(of: Void.self) { group in
+                (1...10).forEach { int in
+                    group.addTask {
+                        self.subject.send(int)
+                    }
+                }
+            }
+        }
+    }
+
+    actor ActorObject {
+        
+        private let service: Service
+        private let subject = PassthroughSubject<Int, Never>()
+        @ContestableContext
+        private var subscriptions: SubscriptionsStorage = .init()
+        
+        init(service: Service) {
+            self.service = service
+            self.service.subscribe().sink(_subscriptions.projectedValue) { [weak self] int in
+                print(int)
+                self?.subject.send(int)
+            }
+        }
+        
+        nonisolated func subscribe() -> AnyPublisher<Int, Never> {
+            subject.eraseToAnyPublisher()
+        }
+        
+        func assert() {
+            XCTAssertEqual(subscriptions.count, 1)
+        }
+    }
+    
+    @SomeActor
+    final class ClassObject {
+        
+        private let actorObject: ActorObject
+        @ContestableContext
+        private var subscriptions: SubscriptionsStorage = .init()
+        
+        nonisolated init(actorObject: ActorObject) {
+            self.actorObject = actorObject
+            self.actorObject.subscribe().sink(_subscriptions) { int in
+                print(int)
+            }
+        }
+        
+        func assert() {
+            XCTAssertEqual(subscriptions.count, 1)
+        }
+    }
+    
+    func testActorObject() async {
+        let service = Service()
+        let objcet = ActorObject(service: service)
+        await service.run()
+        await objcet.assert()
+    }
+    
+    func testClassActorObject() async {
+        let service = Service()
+        let actorObjcet = ActorObject(service: service)
+        let classObject = ClassObject(actorObject: actorObjcet)
+        await service.run()
+        await actorObjcet.assert()
+        await classObject.assert()
     }
 }
