@@ -6,7 +6,7 @@ import Combine
 import Foundation
 
 /// Неизолированный хранилище для сохранения подписки
-@frozen public struct SubscriptionsStorage {
+@frozen public struct SubscriptionsStorage: @unchecked Sendable {
     
     /// Количество элементов в хранилище
     public var count: Int {

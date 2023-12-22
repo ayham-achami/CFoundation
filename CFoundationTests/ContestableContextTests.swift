@@ -9,10 +9,8 @@ import XCTest
 final class ContestableContextTests: XCTestCase {
     
     private let range = (1...10)
+    private let subscriptions: SubscriptionsStorage = .init()
     private lazy var values = range.map { value in AnyCancellable { print(value) } }
-    
-    @ContestableContext
-    var subscriptions: SubscriptionsStorage = .init()
     
     func testContestableContext() {
         let group = DispatchGroup()
@@ -21,19 +19,19 @@ final class ContestableContextTests: XCTestCase {
             let cancellable = values.removeFirst()
             DispatchQueue.global().async(group: group) { [weak self] in
                 guard let self else { return }
-                self.$subscriptions.store(cancellable)
-                XCTAssertTrue(self.$subscriptions.contains(cancellable))
+                self.subscriptions.store(cancellable)
+                XCTAssertTrue(self.subscriptions.contains(cancellable))
                 DispatchQueue.global().async(group: group) { [weak self] in
                     guard let self else { return }
-                    XCTAssertTrue(self.$subscriptions.contains(cancellable))
+                    XCTAssertTrue(self.subscriptions.contains(cancellable))
                     cancellable.cancel()
-                    self.$subscriptions.remove(cancellable)
-                    XCTAssertFalse(self.$subscriptions.contains(cancellable))
+                    self.subscriptions.remove(cancellable)
+                    XCTAssertFalse(self.subscriptions.contains(cancellable))
                 }
             }
         }
         group.notify(queue: .main) {
-            XCTAssertTrue(self.$subscriptions.isEmpty)
+            XCTAssertTrue(self.subscriptions.isEmpty)
             expect.fulfill()
         }
          wait(for: [expect], timeout: 30)

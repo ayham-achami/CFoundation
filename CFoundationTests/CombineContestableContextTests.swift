@@ -38,15 +38,17 @@ final class CombineContestableContextTests: XCTestCase {
     actor ActorObject {
         
         private let service: Service
+        private let subscriptions = SubscriptionsStorage()
         private let subject = PassthroughSubject<Int, Never>()
-        @ContestableContext
-        private var subscriptions: SubscriptionsStorage = .init()
         
         init(service: Service) {
             self.service = service
-            self.service.subscribe().sink(_subscriptions.projectedValue) { [weak self] int in
+            self.service.subscribe().sink(subscriptions) { [weak self] int in
                 print(int)
                 self?.subject.send(int)
+            }
+            self.service.subscribe().sink(subscriptions) { int in
+                print(int)
             }
         }
         
@@ -55,7 +57,7 @@ final class CombineContestableContextTests: XCTestCase {
         }
         
         func assert() {
-            XCTAssertEqual(subscriptions.count, 1)
+            XCTAssertEqual(subscriptions.count, 2)
         }
     }
     
@@ -63,12 +65,11 @@ final class CombineContestableContextTests: XCTestCase {
     final class ClassObject {
         
         private let actorObject: ActorObject
-        @ContestableContext
         private var subscriptions: SubscriptionsStorage = .init()
         
         nonisolated init(actorObject: ActorObject) {
             self.actorObject = actorObject
-            self.actorObject.subscribe().sink(_subscriptions) { int in
+            self.actorObject.subscribe().sink(subscriptions) { int in
                 print(int)
             }
         }

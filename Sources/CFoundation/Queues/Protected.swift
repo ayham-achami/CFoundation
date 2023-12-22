@@ -5,7 +5,7 @@
 import Foundation
 
 /// Протокол блокировки доступа (Синхронизации значения)
-public protocol Lock {
+public protocol Lock: Sendable {
     
     /// Блокировка
     func lock()
@@ -19,7 +19,7 @@ public extension Lock {
     /// Выполняет замыкание, возвращая значение и синхронизировать обращение.
     /// - Parameter closure: Замыкание
     /// - Returns: Нужное значение
-    func around<T>(_ closure: () -> T) -> T {
+    func around<T>(_ closure: @Sendable () -> T) -> T {
         lock()
         defer { unlock() }
         return closure()
@@ -53,7 +53,7 @@ public final class UnfairLock: Lock {
 /// Потокобезопасная оболочка значения.
 @propertyWrapper
 @dynamicMemberLookup
-public final class Protected<T> {
+public final class Protected<T>: @unchecked Sendable {
 
     private var value: T
     private let lock = UnfairLock()
@@ -90,7 +90,7 @@ public final class Protected<T> {
     /// Синхронно прочитать или преобразовать содержащееся значение.
     /// - Parameter closure: Замыкание
     /// - Returns: Нужное значение
-    public func read<U>(_ closure: (T) -> U) -> U {
+    public func read<U>(_ closure: @Sendable (T) -> U) -> U {
         lock.around { closure(self.value) }
     }
     
@@ -98,7 +98,7 @@ public final class Protected<T> {
     /// - Parameter closure: Замыкание
     /// - Returns: Нужное значение
     @discardableResult
-    public func write<U>(_ closure: (inout T) -> U) -> U {
+    public func write<U>(_ closure: @Sendable (inout T) -> U) -> U {
         lock.around { closure(&self.value) }
     }
 }
