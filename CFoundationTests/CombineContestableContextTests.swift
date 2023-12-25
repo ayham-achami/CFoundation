@@ -72,10 +72,13 @@ final class CombineContestableContextTests: XCTestCase {
             self.actorObject.subscribe().sink(subscriptions) { int in
                 print(int)
             }
+            self.actorObject.subscribe().sink(subscriptions) { int in
+                print(int)
+            }
         }
         
         func assert() {
-            XCTAssertEqual(subscriptions.count, 1)
+            XCTAssertEqual(subscriptions.count, 2)
         }
     }
     
