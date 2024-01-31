@@ -1,12 +1,12 @@
 //
-//  CFoundationMacro.swift
+//  CFoundationPlugin.swift
 //
 
 import SwiftCompilerPlugin
 import SwiftSyntaxMacros
 
 @main
-struct CFoundationMacro: CompilerPlugin {
+struct CFoundationPlugin: CompilerPlugin {
     
     let providingMacros: [Macro.Type] = []
 }
