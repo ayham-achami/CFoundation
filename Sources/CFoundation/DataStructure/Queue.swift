@@ -5,7 +5,7 @@
 import Foundation
 
 /// Очередь
-@frozen public struct Queue<Element> {
+@frozen public struct Queue<Element>: Sendable {
     
     /// Связный список
     fileprivate var list = LinkedList<Element>()

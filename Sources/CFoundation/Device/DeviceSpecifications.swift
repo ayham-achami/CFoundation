@@ -6,7 +6,7 @@
 import UIKit
 
 /// Если `UIViewController` наследует этот протокол то, разрешается поворот экрана типа `allButUpsideDown` для iPhone
-public protocol Autorotatebale {}
+public protocol Autorotatebale: Sendable {}
 
 /// Ориентация устройства
 public enum DeviceOrientation {

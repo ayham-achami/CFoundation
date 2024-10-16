@@ -15,10 +15,9 @@ public extension String {
     ///   - mask: маска ввода на пример (###)###-##-##
     /// - Returns: true если строка действительным номером телефона иначе false
     func isValidPhoneNumber(holder: Character, prefix: String, mask: String) -> Bool {
-        guard let pattern = try? PhonePatternBuilder(holder: holder)
-            .with(prefix: prefix)
-            .with(mask: mask)
-            .build() else { return false }
+        guard
+            let pattern = try? PhonePatternBuilder(holder: holder, mask: mask, prefix: prefix).build()
+        else { return false }
         return range(of: pattern, options: .regularExpression) != nil
     }
 }

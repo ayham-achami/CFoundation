@@ -5,7 +5,7 @@
 import Foundation
 
 /// Объект проверяющий наличие Jailbreak
-@frozen public struct JailbreakDetector {
+@frozen public struct JailbreakDetector: @unchecked Sendable {
     
     /// Установлен ли Jailbreak
     public var isJailbroken: Bool {

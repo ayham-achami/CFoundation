@@ -6,13 +6,13 @@ import Foundation
 import os
 
 /// Объект логирования
-public final class Logger {
+public final class Logger: Sendable {
 
     /// контроль уровня логирования
     ///
     /// - debug:   логирование рзаршено
     /// - release: логирование запрещено
-    public enum Level: String {
+    public enum Level: String, Sendable {
 
         case debug
         case release
@@ -24,7 +24,7 @@ public final class Logger {
     /// - error: ошибка
     /// - warning: предупреждение
     /// - info: информационный
-    public enum LogLevel: String {
+    public enum LogLevel: String, Sendable {
 
         case debug = " ✅ "
         case error = " ⛔️ "
@@ -53,7 +53,7 @@ public final class Logger {
     ///
     /// - url: URL - ссылка на файл, куда записываются логи
     /// - levels: LogLevel - массив уровней логирования
-    public struct LogFile {
+    public struct LogFile: Sendable {
         
         public let url: URL
         public let levels: [LogLevel]
@@ -66,25 +66,18 @@ public final class Logger {
     
     /// регулирует название уровня лога использовать прямое название или эмоции (*_*)
     private let useEmoji: Bool
-    
     /// уровень логирования
     private let level: Level
-    
     /// формирование файла логов
     private let logFile: LogFile?
-    
     /// Объектно-ориентированная оболочка для файлового дескриптора.
     private let fileHandler: FileHandle?
-    
     /// 50 Mb free space
     private let maxFreeSpace: UInt64 = 50 * 1024 * 1024
-    
     /// максимальный размер файла лога
     private let maxFileLogSize: UInt64 = 50 * 1024 * 1024
-    
     /// минмальный размер файла лога
     private let minFileLogSize: UInt64 = 1024
-    
     /// Очередь для записи в файл
     private let logFileQueue = DispatchQueue(label: "CFoundation.Async.FileLog.Queue")
     
@@ -327,7 +320,10 @@ public final class Logger {
         let home = URL(fileURLWithPath: NSHomeDirectory() as String)
         guard
             let space = try? home.resourceValues(forKeys: keys).volumeAvailableCapacityForImportantUsage
-        else  { printError("Error in record to log file: cant calculate free disk space"); return }
+        else {
+            printError("Error in record to log file: cant calculate free disk space")
+            return
+        }
         if fileOffset < minFileLogSize, space < maxFreeSpace + minFileLogSize {
             printError("Not enough disk space for logs")
             return
@@ -428,8 +424,8 @@ private extension Data {
     /// Преобразует `Data` в JSON
     var prettyPrintedJSONString: String {
         guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
-              let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
-              let prettyPrintedString = String(data: data, encoding: .utf8) else { return "" }
+              let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]) else { return "" }
+        let prettyPrintedString = String(decoding: data, as: UTF8.self)
         return prettyPrintedString
     }
 }

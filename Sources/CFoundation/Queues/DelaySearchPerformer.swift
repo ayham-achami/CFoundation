@@ -5,7 +5,7 @@
 import Foundation
 
 /// Делегат объект реализующий логику поиска с задержкой
-public protocol DelaySearchPerformerDelegate: AnyObject {
+public protocol DelaySearchPerformerDelegate: AnyObject, Sendable {
 
     /// Вызывается когда необходимо выполнять поиск
     /// - Parameters:
@@ -15,7 +15,7 @@ public protocol DelaySearchPerformerDelegate: AnyObject {
 }
 
 /// Объект реализующий логику поиска с задержкой
-public class DelaySearchPerformer<Searched> {
+public class DelaySearchPerformer<Searched>: @unchecked Sendable {
 
     /// Задержка поиска
     public let delay: DispatchTimeInterval

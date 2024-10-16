@@ -6,12 +6,12 @@ import Combine
 import Foundation
 
 /// Объект источника таймеров
-public final class TimersSource {
+public final class TimersSource: @unchecked Sendable {
 
     static let idKey = "CFoundation.TimersSource.idKey"
 
     /// Типы используемых таймеров
-    public enum TimerType {
+    public enum TimerType: Sendable {
 
         /// таймер с использованием `DispatchSourceTimer`
         case dispatchSource
@@ -24,7 +24,7 @@ public final class TimersSource {
     private let timersType: TimerType
     
     /// Массив таймеров то, что было создано
-    private var source: [SourceTimer] = []
+    @Protected private var source: [SourceTimer] = []
     
     /// Субъект отмены таймера
     private let cancelSubject = PassthroughSubject<UUID, Never>()
@@ -49,7 +49,7 @@ public final class TimersSource {
     /// - Parameter id: Идентификатор таймера
     /// - Returns: Объект таймера
     public func timer(at id: UUID) -> Timer? {
-        source[id]
+        $source.read { $0[id] }
     }
     
     /// Подписаться на освобождении (отмена) таймера
@@ -67,7 +67,7 @@ public final class TimersSource {
     private func dispatchSourceTimer(with id: UUID, on queue: DispatchQueue) -> SourceTimer {
         let timer = SourceTimer(id, queue)
         timer.setCancel { [weak self] in
-            self?.source.remove(with: id)
+            self?.$source.write { $0.remove(with: id) }
             self?.cancelSubject.send(id)
             NotificationCenter.default.post(name: .timersSourceDidReleaseTimer, object: nil, userInfo: [Self.idKey: id])
         }

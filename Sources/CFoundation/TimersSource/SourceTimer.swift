@@ -5,7 +5,7 @@
 import Foundation
 
 /// Объект таймера
-final class SourceTimer: Timer {
+final class SourceTimer: Timer, @unchecked Sendable {
 
     /// Идентификатор таймера
     let id: UUID

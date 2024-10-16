@@ -5,7 +5,7 @@
 import Foundation
 
 /// Протокол описывающий структуру локальных данных
-public protocol AnyResourceType {
+public protocol AnyResourceType: Sendable {
 
     /// Название ресурса
     var name: String { get }
