@@ -5,7 +5,7 @@
 import Foundation
 
 /// Дескриптор сортировки
-@frozen public struct SortDescriptor<Value> {
+@frozen public struct SortDescriptor<Value>: @unchecked Sendable where Value: Sendable {
     
     /// Порядок сортировки
     public enum Order {

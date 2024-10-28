@@ -5,35 +5,37 @@
 import Foundation
 
 /// Создает паттерн регулярного выражения из маски номера телефона
-public class PhonePatternBuilder {
+@frozen public struct PhonePatternBuilder: Sendable {
 
     public typealias PhonePattern = String
 
     /// Символ пласходера в маске
     private let holder: Character
     /// Маска ввода номера телефона
-    private var mask: String = ""
+    private let mask: String
     /// Префикс маски
-    private var prefix: String = ""
+    private let prefix: String
 
     /// Инициализация
     /// - Parameter holder: Символ пласходера в маске
-    public init(holder: Character) {
+    /// - Parameter mask: Маска ввода номера телефона
+    /// - Parameter prefix: Префикс маски
+    public init(holder: Character, mask: String, prefix: String) {
         self.holder = holder
+        self.mask = mask
+        self.prefix = prefix
     }
 
     /// Добавить префикс маски
     /// - Parameter prefix: Префикс маски
     public func with(prefix: String) -> PhonePatternBuilder {
-        self.prefix = prefix
-        return self
+        .init(holder: holder, mask: mask, prefix: prefix)
     }
 
     /// Добавить маска ввода номера телефона
     /// - Parameter mask: Маска ввода номера телефона
     public func with(mask: String) -> PhonePatternBuilder {
-        self.mask = mask
-        return self
+        .init(holder: holder, mask: mask, prefix: prefix)
     }
 
     /// Создает и возвращает паттерн регулярного выражения из маски номера телефона

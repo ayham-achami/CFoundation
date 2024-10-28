@@ -5,12 +5,12 @@
 import Foundation
 
 /// Массив ссылок на объектов, все ссылки слабые
-public struct ReferenceArray<Element: AnyObject>: ExpressibleByArrayLiteral {
+public struct ReferenceArray<Element: AnyObject>: ExpressibleByArrayLiteral, @unchecked Sendable {
 
     public typealias ArrayLiteralElement = Element
 
     /// Обложка ссылки
-    struct Box<Value: AnyObject> {
+    struct Box<Value>: Sendable where Value: AnyObject, Value: Sendable {
 
         /// Слабая ссылка
         weak var value: Value?

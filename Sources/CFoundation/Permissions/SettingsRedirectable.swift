@@ -6,7 +6,7 @@
 import UIKit
 
 /// Открыть настройки приложения
-public protocol SettingsRedirectable: AnyObject {
+public protocol SettingsRedirectable: AnyObject, Sendable {
 
     /// Открыть настройки приложения
     /// - Parameter completionHandler: Замыкание вызывается после перехода на экран настройки приложения

@@ -11,7 +11,7 @@ public enum DarwinNotification {}
 public extension DarwinNotification {
     
     /// Имя нотификаций для общения между процессами
-    struct Name: Hashable {
+    struct Name: Hashable, Sendable {
         
         /// Название нотификации
         let name: String
@@ -33,7 +33,7 @@ public extension DarwinNotification {
 public extension DarwinNotification {
     
     /// Подписка на уведомление
-    final class Subscription: NSObject {
+    final class Subscription: NSObject, @unchecked Sendable {
         
         /// Замыкание, которое надо выполнять при получение уведомления
         var invocation: (() -> Void)?

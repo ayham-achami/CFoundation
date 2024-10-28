@@ -19,15 +19,15 @@ public extension Lock {
     /// Выполняет замыкание, возвращая значение и синхронизировать обращение.
     /// - Parameter closure: Замыкание
     /// - Returns: Нужное значение
-    func around<T>(_ closure: @Sendable () -> T) -> T {
+    func around<T>(_ closure: @Sendable () throws -> T) rethrows -> T {
         lock()
         defer { unlock() }
-        return closure()
+        return try closure()
     }
 }
 
 /// `os_unfair_lock` Wrapper
-public final class UnfairLock: Lock {
+public final class UnfairLock: Lock, @unchecked Sendable {
 
     private let unfairLock: os_unfair_lock_t
 
@@ -90,16 +90,16 @@ public final class Protected<T>: @unchecked Sendable {
     /// Синхронно прочитать или преобразовать содержащееся значение.
     /// - Parameter closure: Замыкание
     /// - Returns: Нужное значение
-    public func read<U>(_ closure: @Sendable (T) -> U) -> U {
-        lock.around { closure(self.value) }
+    public func read<U>(_ closure: @Sendable (T) throws -> U) rethrows -> U {
+        try lock.around { try closure(self.value) }
     }
     
     /// Синхронно изменить защищенное значение.
     /// - Parameter closure: Замыкание
     /// - Returns: Нужное значение
     @discardableResult
-    public func write<U>(_ closure: @Sendable (inout T) -> U) -> U {
-        lock.around { closure(&self.value) }
+    public func write<U>(_ closure: @Sendable (inout T) throws -> U) rethrows -> U {
+        try lock.around { try closure(&self.value) }
     }
 }
 

@@ -26,7 +26,7 @@ public enum KeychainError: LocalizedError {
 }
 
 // MARK: - AccessOption
-public enum KeychainAccessOption {
+public enum KeychainAccessOption: Sendable {
 
     /// Доступ к данным в `Keychain` возможен только в том случае, если
     /// устройство разблокировано пользователем. Это рекомендуется для элементов, которые
@@ -76,21 +76,23 @@ public enum KeychainAccessOption {
 }
 
 // MARK: - Service
-public protocol KeychainService {}
+public protocol KeychainService: Sendable {}
 
 /// Тип сохраняемого элемента в Keychain
 typealias KeychainItem = Codable
 
 // MARK: - Configuration
-@frozen public struct KeychainConfiguration {
+@frozen public struct KeychainConfiguration: Sendable {
 
     public typealias Service = KeychainService & RawRepresentable
     
-    public struct SecureAccess {
+    public struct SecureAccess: @unchecked Sendable {
         
-        public static var `default`: SecureAccess { .init(context: nil,
-                                                          operationPrompt: nil,
-                                                          accessFlags: .biometryCurrentSet) }
+        public static var `default`: SecureAccess {
+            .init(context: nil,
+                  operationPrompt: nil,
+                  accessFlags: .biometryCurrentSet)
+        }
         
         public let context: LAContext?
         public let operationPrompt: String?
@@ -128,7 +130,7 @@ typealias KeychainItem = Codable
 }
 
 /// Keychain
-@frozen public struct Keychain {
+@frozen public struct Keychain: Sendable {
 
     /// Конфигурации
     public let configuration: KeychainConfiguration

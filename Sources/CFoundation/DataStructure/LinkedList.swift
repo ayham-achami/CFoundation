@@ -5,10 +5,10 @@
 import Foundation
 
 /// Связный двунаправленный список
-@frozen public struct LinkedList<Element> {
+@frozen public struct LinkedList<Element>: Sendable {
     
     /// Узел между элементами
-    public class Node<Value> {
+    public class Node<Value>: @unchecked Sendable {
         
         /// Значение узла
         public private(set) var value: Value
@@ -27,7 +27,7 @@ import Foundation
     }
     
     /// Тип, который выдает значения последовательности по одному.
-    public struct Iterator: IteratorProtocol {
+    public struct Iterator: IteratorProtocol, @unchecked Sendable {
         
         private var node: Node<Element>?
         

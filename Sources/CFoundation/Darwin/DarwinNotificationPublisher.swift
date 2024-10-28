@@ -6,7 +6,7 @@ import Combine
 import Foundation
 
 /// Любой подписчик `DarwinNotificationCenter`
-protocol AnyDarwinNotificationSubscriber: AnyObject {
+protocol AnyDarwinNotificationSubscriber: AnyObject, Sendable {
     
     /// Сообщает подписчику, что Publisher готов принимать дальнейшие запросы
     func receive()
@@ -16,11 +16,12 @@ protocol AnyDarwinNotificationSubscriber: AnyObject {
 extension DarwinNotificationCenter {
     
     /// Обертка надо Subscriber
-    private class SubscriberBox<SubscriberType: Subscriber>: AnyDarwinNotificationSubscriber where SubscriberType.Input == Void,
-                                                                                                   SubscriberType.Failure == Never {
+    private final class SubscriberBox<SubscriberType: Subscriber>: AnyDarwinNotificationSubscriber where SubscriberType.Input == Void,
+                                                                                                         SubscriberType.Failure == Never,
+                                                                                                         SubscriberType: Sendable {
         
         /// Подписчик
-        var subscriber: SubscriberType
+        let subscriber: SubscriberType
         
         /// Инициализация
         /// - Parameter subscriber: Подписчик
@@ -34,7 +35,7 @@ extension DarwinNotificationCenter {
     }
     
     /// Publisher доставляет элементы одному или нескольким экземплярам подписчика.
-    public struct Publisher: Combine.Publisher {
+    public struct Publisher: Combine.Publisher, @unchecked Sendable {
         
         public typealias Failure = Never
         public typealias Output = Void
@@ -77,7 +78,7 @@ extension DarwinNotificationCenter {
 extension DarwinNotificationCenter.Publisher {
     
     /// Объект представляющий подключение подписчики к `DarwinNotificationCenter.Publisher`
-    final class Subscription: Combine.Subscription {
+    final class Subscription: Combine.Subscription, @unchecked Sendable {
         
         /// Название события на которое идет подписка
         private let name: CFString

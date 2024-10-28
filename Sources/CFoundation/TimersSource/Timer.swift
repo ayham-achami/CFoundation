@@ -5,7 +5,7 @@
 import Foundation
 
 /// Объект таймера
-public protocol Timer: AnyObject {
+public protocol Timer: AnyObject, Sendable {
 
     typealias TimerHandler = @convention(block) () -> Void
 
