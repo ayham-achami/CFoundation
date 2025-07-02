@@ -40,11 +40,7 @@ public extension Specifications {
 public extension Specifications {
     
     var orientation: DeviceOrientation {
-        let orientation = UIApplication
-            .shared
-            .windows
-            .first?
-            .windowScene?
+        let orientation = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?
             .interfaceOrientation ?? .portrait
         switch orientation {
         case .landscapeLeft, .landscapeRight:
