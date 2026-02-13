@@ -107,21 +107,54 @@ typealias KeychainItem = Codable
         }
     }
     
+    public struct Identity: @unchecked Sendable {
+        
+        public enum KeyType: @unchecked Sendable {
+            
+            case ec
+            case rsa
+            
+            var rawValue: CFString {
+                switch self {
+                case .rsa:
+                    kSecAttrKeyTypeRSA
+                case .ec:
+                    kSecAttrKeyTypeEC
+                }
+            }
+        }
+        
+        public let tag: Data
+        public let label: String
+        public let keyType: KeyType
+        
+        public init(tag: Data,
+                    label: String,
+                    keyType: KeyType) {
+            self.tag = tag
+            self.label = label
+            self.keyType = keyType
+        }
+    }
+    
     public let service: String
     public let account: String
     public let secureAccess: SecureAccess?
     public let thisDeviceOnly: Bool
     public let accessGroup: String?
     public let access: KeychainAccessOption
+    public let identity: Identity?
 
     public init<Service>(service: Service,
                          account: String,
                          secureAccess: SecureAccess? = nil,
                          thisDeviceOnly: Bool = false,
                          accessGroup: String? = nil,
-                         access: KeychainAccessOption = .whenUnlocked) where Service: Self.Service {
+                         access: KeychainAccessOption = .whenUnlocked,
+                         identity: Identity? = nil) where Service: Self.Service {
         self.access = access
         self.account = account
+        self.identity = identity
         self.secureAccess = secureAccess
         self.accessGroup = accessGroup
         self.thisDeviceOnly = thisDeviceOnly
@@ -245,9 +278,171 @@ typealias KeychainItem = Codable
         if let accessGroup = configuration.accessGroup {
             query[kSecAttrAccessGroup as String] = accessGroup
         }
+        try deleteItem(with: query)
+    }
+    
+    /// Получить комбинацию сертификата и приватного ключа
+    /// - Returns: `SecIdentity`
+    public func readIdentity() throws -> SecIdentity {
+        var query: [String: Any] = [
+            kSecReturnRef as String: true,
+            kSecClass as String: kSecClassIdentity,
+            kSecMatchLimit as String: kSecMatchLimitOne
+        ]
+        if let identity = configuration.identity {
+            query[kSecAttrLabel as String] = identity.label
+            query[kSecAttrApplicationTag as String] = identity.tag
+        }
+        var item: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &item)
+        guard status == errSecSuccess || status == noErr else {
+            throw KeychainError.unhandledError(status: status)
+        }
+        switch status {
+        case errSecUserCanceled:
+            throw KeychainError.biometryUserCanceled
+        case errSecItemNotFound:
+            throw KeychainError.noData
+        case errSecAuthFailed:
+            throw KeychainError.authFailed
+        case noErr, errSecSuccess:
+            guard let item else { throw KeychainError.noData }
+            return unsafeBitCast(item, to: SecIdentity.self)
+        default:
+            throw KeychainError.unhandledError(status: status)
+        }
+    }
+    
+    /// Сохранить приватный ключ
+    /// - Parameters:
+    ///   - key: `SecKey`
+    ///   - throwIfExists: Кидать ли ошибку если данные по указанному ключу уже существуют
+    /// - Throws: `KeychainError`
+    public func save(_ key: SecKey, throwIfExists: Bool) throws {
+        var baseQuery: [String: Any] = [
+            kSecClass as String: kSecClassKey
+        ]
+        var attributes: [String: Any] = baseWriteQuery()
+        attributes[kSecValueRef as String] = key
+        if let identity = configuration.identity {
+            baseQuery[kSecAttrLabel as String] = identity.label
+            baseQuery[kSecAttrApplicationTag as String] = identity.tag
+            baseQuery[kSecAttrKeyType as String] = identity.keyType.rawValue
+        }
+        var addQuery = baseQuery
+        attributes.forEach { addQuery[$0.key] = $0.value }
+        
+        var status = SecItemAdd(addQuery as CFDictionary, nil)
+        if !throwIfExists && status == errSecDuplicateItem {
+            var updateQuery = baseQuery
+            if let secureAccess = configuration.secureAccess {
+                if let context = secureAccess.context {
+                    updateQuery[kSecUseAuthenticationContext as String] = context
+                }
+                if let operationPrompt = secureAccess.operationPrompt {
+                    updateQuery[kSecUseOperationPrompt as String] = operationPrompt
+                }
+            }
+            status = SecItemUpdate(updateQuery as CFDictionary, attributes as CFDictionary)
+        }
+        guard status == errSecSuccess || status == noErr else {
+            throw KeychainError.unhandledError(status: status)
+        }
+    }
+    
+    /// Сохранить сертификат
+    /// - Parameters:
+    ///   - certificate: `SecCertificate`
+    ///   - throwIfExists: Кидать ли ошибку если данные по указанному ключу уже существуют
+    /// - Throws: `KeychainError`
+    public func save(_ certificate: SecCertificate, throwIfExists: Bool) throws {
+        var baseQuery: [String: Any] = [
+            kSecClass as String: kSecClassCertificate
+        ]
+        var attributes: [String: Any] = baseWriteQuery()
+        attributes[kSecValueRef as String] = certificate
+        if let identity = configuration.identity {
+            baseQuery[kSecAttrLabel as String] = identity.label
+            baseQuery[kSecAttrApplicationTag as String] = identity.tag
+        }
+        var addQuery = baseQuery
+        attributes.forEach { addQuery[$0.key] = $0.value }
+        
+        var status = SecItemAdd(addQuery as CFDictionary, nil)
+        if !throwIfExists && status == errSecDuplicateItem {
+            var updateQuery = baseQuery
+            if let secureAccess = configuration.secureAccess {
+                if let context = secureAccess.context {
+                    updateQuery[kSecUseAuthenticationContext as String] = context
+                }
+                if let operationPrompt = secureAccess.operationPrompt {
+                    updateQuery[kSecUseOperationPrompt as String] = operationPrompt
+                }
+            }
+            status = SecItemUpdate(updateQuery as CFDictionary, attributes as CFDictionary)
+        }
+        guard status == errSecSuccess || status == noErr else {
+            throw KeychainError.unhandledError(status: status)
+        }
+    }
+    
+    /// Удалить приватный ключ
+    public func deleteKey() throws {
+        guard let identity = configuration.identity else { return }
+        var query: [String: Any] = [
+            kSecClass as String: kSecClassKey,
+            kSecAttrLabel as String: identity.label,
+            kSecAttrApplicationTag as String: identity.tag,
+            kSecAttrKeyClass as String: kSecAttrKeyClassPrivate
+        ]
+        if let accessGroup = configuration.accessGroup {
+            query[kSecAttrAccessGroup as String] = accessGroup
+        }
+        try deleteItem(with: query)
+    }
+    
+    /// Удалить сертификат
+    public func deleteCerificate() throws {
+        guard let identity = configuration.identity else { return }
+        var query: [String: Any] = [
+            kSecAttrLabel as String: identity.label,
+            kSecClass as String: kSecClassCertificate,
+            kSecAttrApplicationTag as String: identity.tag
+        ]
+        if let accessGroup = configuration.accessGroup {
+            query[kSecAttrAccessGroup as String] = accessGroup
+        }
+        query[kSecClass as String] = kSecClassCertificate
+        try deleteItem(with: query)
+    }
+    
+    private func deleteItem(with query: [String: Any]) throws {
         let status = SecItemDelete(query as CFDictionary)
         guard status == noErr || status == errSecItemNotFound || status == errSecSuccess else {
             throw KeychainError.unhandledError(status: status)
         }
+    }
+    
+    private func baseWriteQuery() -> [String: Any] {
+        var query: [String: Any] = [:]
+        if let secureAccess = configuration.secureAccess {
+            let access = SecAccessControlCreateWithFlags(nil,
+                                                         configuration.access.rawValue,
+                                                         secureAccess.accessFlags,
+                                                         nil)
+            query[kSecAttrAccessControl as String] = access
+            if let context = secureAccess.context {
+                query[kSecUseAuthenticationContext as String] = context
+            }
+            if let operationPrompt = secureAccess.operationPrompt {
+                query[kSecUseOperationPrompt as String] = operationPrompt
+            }
+        } else {
+            query[kSecAttrAccessible as String] = configuration.access.rawValue
+        }
+        if let accessGroup = configuration.accessGroup {
+            query[kSecAttrAccessGroup as String] = accessGroup
+        }
+        return query
     }
 }
