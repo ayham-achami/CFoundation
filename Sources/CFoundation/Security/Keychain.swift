@@ -363,7 +363,6 @@ typealias KeychainItem = Codable
         attributes[kSecValueRef as String] = certificate
         if let identity = configuration.identity {
             baseQuery[kSecAttrLabel as String] = identity.label
-            baseQuery[kSecAttrApplicationTag as String] = identity.tag
         }
         var addQuery = baseQuery
         attributes.forEach { addQuery[$0.key] = $0.value }
