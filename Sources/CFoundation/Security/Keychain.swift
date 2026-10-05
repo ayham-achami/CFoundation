@@ -329,22 +329,19 @@ typealias KeychainItem = Codable
             baseQuery[kSecAttrApplicationTag as String] = identity.tag
             baseQuery[kSecAttrKeyType as String] = identity.keyType.rawValue
         }
+        var fetchQuery = baseQuery
+        let accessGroup = attributes[kSecAttrAccessGroup as String]
+        fetchQuery[kSecAttrAccessGroup as String] = accessGroup
+        var item: CFTypeRef?
+        var status = SecItemCopyMatching(fetchQuery as CFDictionary, &item)
+        
+        if status == errSecSuccess || status == noErr {
+            guard !throwIfExists else { throw KeychainError.unhandledError(status: errSecDuplicateItem) }
+            try deleteKey()
+        }
         var addQuery = baseQuery
         attributes.forEach { addQuery[$0.key] = $0.value }
-        
-        var status = SecItemAdd(addQuery as CFDictionary, nil)
-        if !throwIfExists && status == errSecDuplicateItem {
-            var updateQuery = baseQuery
-            if let secureAccess = configuration.secureAccess {
-                if let context = secureAccess.context {
-                    updateQuery[kSecUseAuthenticationContext as String] = context
-                }
-                if let operationPrompt = secureAccess.operationPrompt {
-                    updateQuery[kSecUseOperationPrompt as String] = operationPrompt
-                }
-            }
-            status = SecItemUpdate(updateQuery as CFDictionary, attributes as CFDictionary)
-        }
+        status = SecItemAdd(addQuery as CFDictionary, nil)
         guard status == errSecSuccess || status == noErr else {
             throw KeychainError.unhandledError(status: status)
         }
@@ -364,22 +361,19 @@ typealias KeychainItem = Codable
         if let identity = configuration.identity {
             baseQuery[kSecAttrLabel as String] = identity.label
         }
+        var fetchQuery = baseQuery
+        let accessGroup = attributes[kSecAttrAccessGroup as String]
+        fetchQuery[kSecAttrAccessGroup as String] = accessGroup
+        var item: CFTypeRef?
+        var status = SecItemCopyMatching(fetchQuery as CFDictionary, &item)
+        
+        if status == errSecSuccess || status == noErr {
+            guard !throwIfExists else { throw KeychainError.unhandledError(status: errSecDuplicateItem) }
+            try deleteCerificate()
+        }
         var addQuery = baseQuery
         attributes.forEach { addQuery[$0.key] = $0.value }
-        
-        var status = SecItemAdd(addQuery as CFDictionary, nil)
-        if !throwIfExists && status == errSecDuplicateItem {
-            var updateQuery = baseQuery
-            if let secureAccess = configuration.secureAccess {
-                if let context = secureAccess.context {
-                    updateQuery[kSecUseAuthenticationContext as String] = context
-                }
-                if let operationPrompt = secureAccess.operationPrompt {
-                    updateQuery[kSecUseOperationPrompt as String] = operationPrompt
-                }
-            }
-            status = SecItemUpdate(updateQuery as CFDictionary, attributes as CFDictionary)
-        }
+        status = SecItemAdd(addQuery as CFDictionary, nil)
         guard status == errSecSuccess || status == noErr else {
             throw KeychainError.unhandledError(status: status)
         }
@@ -405,8 +399,7 @@ typealias KeychainItem = Codable
         guard let identity = configuration.identity else { return }
         var query: [String: Any] = [
             kSecAttrLabel as String: identity.label,
-            kSecClass as String: kSecClassCertificate,
-            kSecAttrApplicationTag as String: identity.tag
+            kSecClass as String: kSecClassCertificate
         ]
         if let accessGroup = configuration.accessGroup {
             query[kSecAttrAccessGroup as String] = accessGroup
