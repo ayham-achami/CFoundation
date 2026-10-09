@@ -27,8 +27,8 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/realm/SwiftLint", from: "0.55.1"),
-        .package(url: "https://github.com/apple/swift-syntax.git", from: "510.0.2")
+        .package(url: "https://github.com/realm/SwiftLint", from: "0.59.1"),
+        .package(url: "https://github.com/apple/swift-syntax.git", from: "601.0.0")
     ],
     targets: [
         .macro(
